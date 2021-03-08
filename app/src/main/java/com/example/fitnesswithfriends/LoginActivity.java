@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private FirebaseAuth mAuth;
-    private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
 
     @Override
@@ -91,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If sign in succeeds, navigate to the MainActivity
                         //else, display a message to the user
-                        progressBar.setVisibility(View.GONE);
+//                        progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
