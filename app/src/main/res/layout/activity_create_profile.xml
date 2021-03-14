@@ -76,6 +76,30 @@
                 android:ems="10"
                 android:inputType="textPersonName|textCapSentences"
                 android:hint="@string/edit_last_name"/>
+
+            <Spinner
+                android:id="@+id/GenderSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:entries="@array/gender_array"
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/FavWorkoutSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:entries="@array/fav_workout_array"
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/FitLevelSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/btn_dropdown"
+                android:entries="@array/fit_level_array"
+                android:spinnerMode="dropdown" />
 <!--            <TextView-->
 <!--                android:id="@+id/TextViewPhoneNo"-->
 <!--                android:layout_width="match_parent"-->

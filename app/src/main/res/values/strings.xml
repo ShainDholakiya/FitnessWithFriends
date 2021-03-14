@@ -50,4 +50,28 @@
     <string name="edit_e_mail">Enter your email</string>
     <string name="btn_done">Done</string>
 
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="fav_workout_array">
+        <item>Weight Lifting</item>
+        <item>Hiking</item>
+        <item>Running</item>
+        <item>Cardio</item>
+        <item>Yoga</item>
+        <item>Swimming</item>
+        <item>Dancing</item>
+        <item>Biking</item>
+        <item>Playing Sports</item>
+    </string-array>
+
+    <string-array name="fit_level_array">
+        <item>Beginner</item>
+        <item>Intermediate</item>
+        <item>Advanced</item>
+    </string-array>
+
 </resources>

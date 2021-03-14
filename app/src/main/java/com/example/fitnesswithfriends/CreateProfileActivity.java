@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private DatabaseReference databaseReference;
     private EditText editTextFirstName, editTextLastName;
     private ImageView profileImageView;
+    private Spinner genderSpinner, favWorkoutSpinner, fitLevelSpinner;
     private FirebaseStorage firebaseStorage;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
@@ -89,6 +91,9 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         textViewemailname=(TextView)findViewById(R.id.textViewEmailAddress);
         textViewemailname.setText(user.getEmail());
         profileImageView = findViewById(R.id.update_imageView);
+        genderSpinner = (Spinner) findViewById(R.id.GenderSpinner);
+        favWorkoutSpinner = (Spinner) findViewById(R.id.FavWorkoutSpinner);
+        fitLevelSpinner = (Spinner) findViewById(R.id.FitLevelSpinner);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
@@ -106,7 +111,10 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private void userInformation(){
         String first_name = editTextFirstName.getText().toString().trim();
         String last_name = editTextLastName.getText().toString().trim();
-        User user_info = new User(first_name,last_name);
+        String gender = genderSpinner.getSelectedItem().toString();
+        String fav_workout = favWorkoutSpinner.getSelectedItem().toString();
+        String fit_level = fitLevelSpinner.getSelectedItem().toString();
+        User user_info = new User(first_name,last_name,gender,fav_workout,fit_level);
         FirebaseUser user = mAuth.getCurrentUser();
         databaseReference.child(user.getUid()).setValue(user_info);
         Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
@@ -114,7 +122,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        if (view==btnsave){
+        if (view == btnsave){
             if (imagePath == null) {
 
                 Drawable drawable = this.getResources().getDrawable(R.drawable.defavatar);
