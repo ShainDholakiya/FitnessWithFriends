@@ -22,10 +22,6 @@
             android:layout_marginBottom="30dp"
             android:src="@mipmap/ic_launcher" />
 
-<!--        <android.support.design.widget.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
-
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -38,11 +34,6 @@
             android:textColorHint="@android:color/black"
             android:textColorLink="#FFFFFF"
             android:textCursorDrawable="@color/black" />
-<!--        </android.support.design.widget.TextInputLayout>-->
-
-<!--        <android.support.design.widget.TextInputLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
 
         <EditText
             android:id="@+id/password"
@@ -56,9 +47,6 @@
             android:textColorHint="@android:color/black"
             android:textColorLink="#FFFFFF"
             android:textCursorDrawable="@color/black" />
-<!--        </android.support.design.widget.TextInputLayout>-->
-
-        <!-- Login Button -->
 
         <Button
             android:id="@+id/btn_login"
@@ -66,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:text="@string/btn_login"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             app:backgroundTint="#2196F3" />
 
@@ -77,10 +66,7 @@
             android:text="@string/btn_link_to_register"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
             app:backgroundTint="#2196F3" />
-
-        <!-- Link to Login Screen -->
 
         <Button
             android:id="@+id/btn_reset_password"
@@ -96,12 +82,5 @@
 
     </LinearLayout>
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/progressBar"-->
-<!--        android:layout_width="30dp"-->
-<!--        android:layout_height="30dp"-->
-<!--        android:layout_gravity="center|bottom"-->
-<!--        android:layout_marginBottom="20dp"-->
-<!--        android:visibility="gone" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

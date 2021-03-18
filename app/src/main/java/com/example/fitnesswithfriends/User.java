@@ -1,35 +1,35 @@
 package com.example.fitnesswithfriends;
 
 public class User {
-    public String first_name;
-    public String last_name;
+    public String firstName;
+    public String lastName;
     public String gender;
-    public String fav_workout;
-    public String fit_level;
+    public String favWorkout;
+    public String fitLevel;
 
     public User() {
 
     }
 
-    public User(String first_name, String last_name, String gender, String fav_workout, String fit_level) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public User(String firstName, String lastName, String gender, String favWorkout, String fitLevel) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.gender = gender;
-        this.fav_workout = fav_workout;
-        this.fit_level = fit_level;
+        this.favWorkout = favWorkout;
+        this.fitLevel = fitLevel;
     }
 
     public String getFirstName() {
-        return first_name;
+        return firstName;
     }
 
     public String getLastName() {
-        return last_name;
+        return lastName;
     }
 
     public String getGender() { return gender; }
 
-    public String getFavWorkout() { return fav_workout; }
+    public String getFavWorkout() { return favWorkout; }
 
-    public String getFitLevel() { return fit_level; }
+    public String getFitLevel() { return fitLevel; }
 }

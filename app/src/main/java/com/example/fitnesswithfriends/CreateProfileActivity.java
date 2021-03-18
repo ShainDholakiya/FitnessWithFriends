@@ -129,13 +129,13 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.defavatar);
                 userInformation();
                 finish();
-                startActivity(new Intent(CreateProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
             }
             else {
                 userInformation();
                 sendUserData();
                 finish();
-                startActivity(new Intent(CreateProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
             }
         }
     }

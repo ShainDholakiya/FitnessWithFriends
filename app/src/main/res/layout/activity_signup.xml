@@ -47,18 +47,15 @@
             android:textColorLink="#FFFFFF"
             android:textCursorDrawable="@color/black" />
 
-        <!-- Register Button -->
-
         <Button
             android:id="@+id/sign_up_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:text="@string/register"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             app:backgroundTint="#2196F3" />
-
-        <!-- Link to Login Screen -->
 
         <Button
             android:id="@+id/sign_in_button"
@@ -68,7 +65,6 @@
             android:text="@string/btn_login"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
             app:backgroundTint="#2196F3" />
 
         <Button
