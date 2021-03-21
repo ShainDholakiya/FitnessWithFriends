@@ -2,13 +2,10 @@ package com.example.fitnesswithfriends;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -16,10 +13,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -28,6 +21,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private Button btnEditProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +39,15 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_home);
+
+        btnEditProfile = (Button) findViewById(R.id.editProfile);
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, EditProfileActivity.class));
+            }
+        });
 
         //get current user
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -20,7 +20,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private Button btnSignIn, btnSignUp, btnResetPassword;
-//    private ProgressBar progressBar;
     private FirebaseAuth mAuth;
 
     @Override
@@ -35,7 +34,6 @@ public class SignupActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.sign_in_button);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-//        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
 
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
@@ -74,18 +72,14 @@ public class SignupActivity extends AppCompatActivity {
                     return;
                 }
 
-//                progressBar.setVisibility(View.VISIBLE);
-
                 //create user
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Toast.makeText(SignupActivity.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-//                            Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(), Toast.LENGTH_SHORT).show();
                             Toast.makeText(SignupActivity.this, getString(R.string.register_auth_failed), Toast.LENGTH_SHORT).show();
                         } else {
                             startActivity(new Intent(SignupActivity.this, CreateProfileActivity.class));

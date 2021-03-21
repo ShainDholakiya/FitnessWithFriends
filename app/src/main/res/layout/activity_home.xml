@@ -61,6 +61,19 @@
             tools:layout_editor_absoluteY="234dp" />
 
         <Button
+            android:id="@+id/editProfile"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#2196F3"
+            android:text="@string/edit_profile"
+            android:onClick="btnEditProfile"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:backgroundTint="#2196F3" />
+
+        <Button
             android:id="@+id/sign_out"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"

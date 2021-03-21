@@ -50,6 +50,8 @@
     <string name="edit_e_mail">Enter your email</string>
     <string name="btn_done">Done</string>
 
+    <string name="edit_profile">Edit Profile</string>
+
     <string-array name="gender_array">
         <item>Male</item>
         <item>Female</item>
