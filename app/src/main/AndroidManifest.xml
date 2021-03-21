@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fitnesswithfriends">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitnessWithFriends">
-        <activity android:name=".MainActivity">
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_map" />
+        <activity
+            android:name=".CreateWorkoutActivity"
+            android:label="@string/title_create_workout" />
+        <activity android:name=".CreateProfileActivity" />
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_home">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
