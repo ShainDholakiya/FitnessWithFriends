@@ -78,5 +78,10 @@
     <string name="title_map">Map</string>
     <string name="title_create_workout">Create A Workout</string>
     <string name="title_activity_maps">Map</string>
+    <string name="update_image">update_image</string>
+    <string name="title_activity_current_maps">Map</string>
+    <string name="default_info_title" />
+    <string name="default_info_snippet" />
+    <string name="pick_place" />
 
 </resources>

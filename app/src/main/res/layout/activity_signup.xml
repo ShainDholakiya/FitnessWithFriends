@@ -12,14 +12,19 @@
         android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:padding="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="@dimen/logo_w_h"
             android:layout_height="@dimen/logo_w_h"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            tools:ignore="ContentDescription" />
 
         <EditText
             android:id="@+id/email"
@@ -32,7 +37,8 @@
             android:textColorHighlight="#FFFFFF"
             android:textColorHint="@android:color/black"
             android:textColorLink="#FFFFFF"
-            android:textCursorDrawable="@color/black" />
+            android:textCursorDrawable="@color/black"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/password"
@@ -45,7 +51,8 @@
             android:textColorHighlight="#FFFFFF"
             android:textColorHint="@android:color/black"
             android:textColorLink="#FFFFFF"
-            android:textCursorDrawable="@color/black" />
+            android:textCursorDrawable="@color/black"
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/sign_up_button"
