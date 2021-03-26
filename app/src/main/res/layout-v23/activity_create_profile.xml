@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateProfileActivity">
+
+<!--    <android.support.design.widget.AppBarLayout-->
+<!--        android:id="@+id/appbar"-->
+<!--        android:layout_height="192dp"-->
+<!--        android:layout_width="match_parent">-->
+<!--        <android.support.design.widget.CollapsingToolbarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:toolbarId="@+id/toolbar"-->
+<!--            app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
+<!--            app:contentScrim="?attr/colorPrimary">-->
+            <ImageView
+                android:id="@+id/update_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="182dp"
+                android:gravity="center_vertical"
+                android:src="@drawable/defavatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:foreground="@drawable/rounded_fg"/>
+<!--            <android.support.v7.widget.Toolbar-->
+<!--                android:id="@+id/toolbar"-->
+<!--                android:layout_height="?attr/actionBarSize"-->
+<!--                android:layout_width="match_parent"></android.support.v7.widget.Toolbar>-->
+<!--        </android.support.design.widget.CollapsingToolbarLayout>-->
+<!--    </android.support.design.widget.AppBarLayout>-->
+<!--    <android.support.v4.widget.NestedScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/create_profile"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/TextViewFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/first_name"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/EditTextFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/edit_first_name"
+            android:inputType="textPersonName|textCapSentences"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/TextViewLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/last_name"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/EditTextLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/edit_last_name"
+            android:inputType="textPersonName|textCapSentences" />
+
+        <Spinner
+            android:id="@+id/GenderSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/gender_array"
+            android:spinnerMode="dropdown" />
+
+        <Spinner
+            android:id="@+id/FavWorkoutSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/fav_workout_array"
+            android:spinnerMode="dropdown" />
+
+        <Spinner
+            android:id="@+id/FitLevelSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:entries="@array/fit_level_array"
+            android:spinnerMode="dropdown" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/TextViewPhoneNo"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/phone_number"-->
+        <!--                android:textColor="@color/colorPrimaryDark"/>-->
+        <!--            <EditText-->
+        <!--                android:id="@+id/EditTextPhoneNo"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:ems="10"-->
+        <!--                android:hint="@string/enter_your_phone_number"-->
+        <!--                android:inputType="number"/>-->
+        <TextView
+            android:id="@+id/TextViewEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/e_mail"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/textViewEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_e_mail"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btnSaveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_done"
+            android:textColor="@color/white"
+            app:backgroundTint="#2196F3" />
+    </LinearLayout>
+<!--    </android.support.v4.widget.NestedScrollView>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
