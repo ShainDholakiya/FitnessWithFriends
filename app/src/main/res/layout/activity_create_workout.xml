@@ -41,29 +41,4 @@
             android:src="@drawable/ic_createworkout_black_24dp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutLocation"
-        android:layout_width="201dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="105dp"
-        android:layout_marginLeft="105dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginRight="105dp"
-        android:layout_marginBottom="150dp"
-        android:background="#F9A825"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/input_location"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints="address"
-            android:textColor="@color/purple_700"
-            android:textSize="15sp"
-            android:imeOptions="actionSearch"/>
-    </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
