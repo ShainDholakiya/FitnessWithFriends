@@ -69,8 +69,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/edit_first_name"
-            android:inputType="textPersonName|textCapSentences"
-            android:textColor="#FFFFFF" />
+            android:inputType="textPersonName|textCapSentences" />
 
         <TextView
             android:id="@+id/TextViewLastName"
