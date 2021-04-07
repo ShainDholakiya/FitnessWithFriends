@@ -1,33 +1,63 @@
 {
   "project_info": {
-    "project_number": "1049081864989",
-    "project_id": "fitnesswithfriends",
-    "storage_bucket": "fitnesswithfriends.appspot.com"
+    "project_number": "442657852666",
+    "firebase_url": "https://fitnesswithfriendstest-default-rtdb.firebaseio.com",
+    "project_id": "fitnesswithfriendstest",
+    "storage_bucket": "fitnesswithfriendstest.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1049081864989:android:e514dc65cc4fdc065137f4",
+        "mobilesdk_app_id": "1:442657852666:android:75b92eb63d124ebbba0d43",
         "android_client_info": {
           "package_name": "com.example.fitnesswithfriends"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1049081864989-uh3df2ir6t3u9cosgg71kc7t1c32qmc2.apps.googleusercontent.com",
+          "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAD9K9g_IZ0FEUoY2icYVCfLHlW0mVIl_w"
+          "current_key": "AIzaSyAh5kdMMpAIAeEk3dzTWSIZV-C-ut_Ozd0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1049081864989-uh3df2ir6t3u9cosgg71kc7t1c32qmc2.apps.googleusercontent.com",
+              "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442657852666:android:7bde45f4b50d78f1ba0d43",
+        "android_client_info": {
+          "package_name": "com.google.firebase.codelab.fitnesswithfriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh5kdMMpAIAeEk3dzTWSIZV-C-ut_Ozd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

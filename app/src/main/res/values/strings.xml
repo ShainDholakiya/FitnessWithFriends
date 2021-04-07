@@ -55,7 +55,25 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string-array name="duration_workout_array">
+        <item>1/2 Hour</item>
+        <item>1 Hour</item>
+        <item>1 1/2 Hours</item>
+        <item>2 Hours</item>
+        <item>Custome</item>
+    </string-array>
 
+    <string-array name="type_array">
+        <item>Running</item>
+        <item>Cardio</item>
+        <item>Yoga</item>
+        <item>Swimming</item>
+        <item>Dancing</item>
+        <item>Biking</item>
+        <item>Playing Sports</item>
+        <item>Weight Lifting</item>
+        <item>Hiking</item>
+    </string-array>
     <string-array name="fav_workout_array">
         <item>Weight Lifting</item>
         <item>Hiking</item>
@@ -83,5 +101,6 @@
     <string name="default_info_title" />
     <string name="default_info_snippet" />
     <string name="pick_place" />
+    <string name="edit_profile">Edit Profile</string>
 
 </resources>
