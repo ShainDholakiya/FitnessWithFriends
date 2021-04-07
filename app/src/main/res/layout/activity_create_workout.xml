@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+
         <ImageButton
             android:id="@+id/navHome"
             android:layout_width="wrap_content"
@@ -56,6 +57,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+
         <EditText
             android:id="@+id/input_location"
             android:layout_width="match_parent"
@@ -63,7 +65,37 @@
             android:autofillHints="address"
             android:textColor="@color/purple_700"
             android:textSize="15sp"
+            android:background="@null"
+            android:hint="Enter Address, City, or Zip Code"
             android:imeOptions="actionSearch"/>
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btnCreateWk"
+        android:layout_width="141dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="119dp"
+        android:layout_marginLeft="119dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="151dp"
+        android:layout_marginRight="151dp"
+        android:onClick="createWorkout"
+        android:text="SaveWorkout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutLocation" />
+
+    <EditText
+        android:id="@+id/editTitleWk"
+        android:layout_width="182dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginLeft="105dp"
+        android:layout_marginBottom="49dp"
+        android:hint="Workout Title"
+        app:layout_constraintBottom_toTopOf="@+id/layoutLocation"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

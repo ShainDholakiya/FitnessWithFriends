@@ -1,10 +1,5 @@
 package com.example.fitnesswithfriends;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +13,13 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -37,6 +39,12 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +53,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String TAG = MapActivity.class.getSimpleName();
     private GoogleMap map;
     private CameraPosition cameraPosition;
+
+    FirebaseFirestore db;
 
     // The entry point to the Places API.
     private PlacesClient placesClient;
@@ -86,6 +96,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map);
+
+
+        //initializing firebase firestore
+        db = FirebaseFirestore.getInstance();
+
 
         initHomeButton();
         initMapButton();
@@ -152,6 +167,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap map) {
         this.map = map;
 
+
+        //creating variable for document reference
+        DocumentReference documentReference = db.collection("MapsData").document("m5qfpb81hw0Ch1sMPnRB");
+
+        //calling document reference class with a snap shot listener
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value != null && value.exists()) {
+                    // below line is to create a geo point and we are getting
+                    // geo point from firebase and setting to it.
+                    GeoPoint geoPoint = value.getGeoPoint("geoPoint");
+
+                    // getting latitude and longitude from geo point
+                    // and setting it to our location.
+                    LatLng location = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+
+                    // adding marker to each location on google maps
+                    map.addMarker(new MarkerOptions().position(location).title("Marker"));
+
+                    // below line is use to move camera.
+                    map.moveCamera(CameraUpdateFactory.newLatLng(location));
+                } else {
+                    Toast.makeText(MapActivity.this, "Error found is " + error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         // Use a custom info window adapter to handle multiple lines of text in the
         // info window contents.
         this.map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {

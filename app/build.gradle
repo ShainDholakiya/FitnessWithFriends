@@ -62,6 +62,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.3'
     implementation 'androidx.navigation:navigation-ui:2.3.3'
     implementation "androidx.multidex:multidex:2.0.1"
+
+    //adding dynamic markers with firebase firestore
+    implementation "com.google.firebase:firebase-core:18.0.2"
+    implementation "com.google.firebase:firebase-firestore:22.1.2"
     // Firebase UI Library
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
     testImplementation 'junit:junit:4.13.2'
