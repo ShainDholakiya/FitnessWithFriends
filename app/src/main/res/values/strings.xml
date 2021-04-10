@@ -102,5 +102,6 @@
     <string name="default_info_snippet" />
     <string name="pick_place" />
     <string name="edit_profile">Edit Profile</string>
+    <string name="create_workout">Create Workout</string>
 
 </resources>

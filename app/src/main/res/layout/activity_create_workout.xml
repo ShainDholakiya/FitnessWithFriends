@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="enter workout name"
-            android:inputType="textPersonName"
+            android:inputType="text"
             tools:layout_editor_absoluteX="160dp"
             tools:layout_editor_absoluteY="73dp" />
 
@@ -142,17 +142,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="enable location"
-            android:inputType="textPersonName"
+            android:hint="enter an address"
+            android:inputType="text|textPostalAddress"
             tools:layout_editor_absoluteX="160dp"
             tools:layout_editor_absoluteY="73dp" />
 
         <Button
-            android:id="@+id/doneButton"
+            android:id="@+id/btnCreateWk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/btn_done"
+            android:text="@string/create_workout"
+            android:onClick="createWorkout"
             android:textColor="@color/white"
             android:backgroundTint="#2196F3" />
     </LinearLayout>
