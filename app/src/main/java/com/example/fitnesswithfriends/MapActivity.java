@@ -196,7 +196,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Gets the current location of the device, and positions the map's camera.
      */
-    private void getDeviceLocation() {
+    protected void getDeviceLocation() {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
@@ -233,7 +233,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**
      * Prompts the user for permission to use the device location.
      */
-    private void getLocationPermission() {
+    protected void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,

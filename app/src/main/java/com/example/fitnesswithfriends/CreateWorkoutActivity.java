@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,9 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreateWorkoutActivity extends AppCompatActivity {
+public class CreateWorkoutActivity extends MapActivity  {
 
-
+    private GoogleMap map;
     private static String TAG = "initializing CreateWorkoutActivity";
     private EditText mWorkoutName;
     private EditText mLocationText;
@@ -55,10 +55,11 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         //bottom navigation bar
         initHomeButton();
         initMapButton();
+        initLocationText();
         initCreateWorkoutButton();
 
 
-        initLocationText();
+
     }
 
 
@@ -95,18 +96,32 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         if(locationList.size() > 0 ) {
             Address list = locationList.get(0);
 
+
+
             Log.d(TAG, "geoLocate: found a location: " + list.toString());
 
-            //moveCamera(new LatLng(list.getLatitude(),list.getLongitude(), DEFAULT_ZOOM));
+            //Attempt to invoke virtual method 'com.google.android.gms.maps.model.Marker com.google.android.gms.maps.GoogleMap.addMarker(com.google.android.gms.maps.model.MarkerOptions)' on a null object reference
+//            map.addMarker(new MarkerOptions()
+//                    .title("TESTING")
+//                    .position(new LatLng(list.getLatitude(),list.getLongitude())));
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+//                    new LatLng(list.getLatitude(),
+//                            list.getLongitude()),15));
+            }
+
+
+//            super.getDeviceLocation() {
+//             listLoca
+//
+//            }
+//            super.Ca
+//            super.moveCamera(CameraUpdateFactory.newLatLng(list.getLatitude(),list.getLongitude()), 15);
 //            LatLng latLng = null;
 //            String title = null;
 //            MarkerOptions workouts = new MarkerOptions()
 //                    .position(latLng)
 //                    .title(title);
-
-
-        }
-
+//
 
     }
 
@@ -164,4 +179,6 @@ public class CreateWorkoutActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
 }
