@@ -6,7 +6,10 @@ public class User {
     public String gender;
     public String favWorkout;
     public String fitLevel;
-
+    public String streetAddress;
+    public  String city;
+    public String state;
+    public  String zipCode;
     public User() {
 
     }
@@ -17,10 +20,15 @@ public class User {
         this.gender = gender;
         this.favWorkout = favWorkout;
         this.fitLevel = fitLevel;
+
     }
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getName() {
+        return firstName+lastName;
     }
 
     public String getLastName() {
@@ -32,4 +40,19 @@ public class User {
     public String getFavWorkout() { return favWorkout; }
 
     public String getFitLevel() { return fitLevel; }
+
+    public String getStreetAddress() { return streetAddress; }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
 }

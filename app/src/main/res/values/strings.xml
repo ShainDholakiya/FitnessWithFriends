@@ -50,14 +50,30 @@
     <string name="edit_e_mail">Enter your email</string>
     <string name="btn_done">Done</string>
 
-    <string name="edit_profile">Edit Profile</string>
-
     <string-array name="gender_array">
         <item>Male</item>
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string-array name="duration_workout_array">
+        <item>1/2 Hour</item>
+        <item>1 Hour</item>
+        <item>1 1/2 Hours</item>
+        <item>2 Hours</item>
+        <item>Custome</item>
+    </string-array>
 
+    <string-array name="type_array">
+        <item>Running</item>
+        <item>Cardio</item>
+        <item>Yoga</item>
+        <item>Swimming</item>
+        <item>Dancing</item>
+        <item>Biking</item>
+        <item>Playing Sports</item>
+        <item>Weight Lifting</item>
+        <item>Hiking</item>
+    </string-array>
     <string-array name="fav_workout_array">
         <item>Weight Lifting</item>
         <item>Hiking</item>
@@ -79,5 +95,13 @@
     <string name="title_home">Home</string>
     <string name="title_map">Map</string>
     <string name="title_create_workout">Create A Workout</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="update_image">update_image</string>
+    <string name="title_activity_current_maps">Map</string>
+    <string name="default_info_title" />
+    <string name="default_info_snippet" />
+    <string name="pick_place" />
+    <string name="edit_profile">Edit Profile</string>
+    <string name="get_location">get current location</string>
 
 </resources>

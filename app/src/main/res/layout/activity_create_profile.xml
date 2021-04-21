@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_create_workout"
     tools:context=".CreateProfileActivity">
 
             <ImageView
@@ -100,6 +101,15 @@
                 android:text="@string/edit_e_mail"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
+            <Button
+                android:id="@+id/Location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_done"
+                android:textColor="@color/white"
+                app:backgroundTint="#2196F3" />
+
 
             <Button
                 android:id="@+id/btnSaveButton"
