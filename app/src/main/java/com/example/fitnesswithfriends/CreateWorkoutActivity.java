@@ -1,14 +1,14 @@
 package com.example.fitnesswithfriends;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class CreateWorkoutActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
+public class CreateWorkoutActivity extends AppCompatActivity {
+    //need to create button here and have the information send to firebase once the button is clicked
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
