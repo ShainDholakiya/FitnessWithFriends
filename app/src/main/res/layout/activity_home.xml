@@ -53,12 +53,47 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/myWorkoutsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home Activity"
-            tools:layout_editor_absoluteX="184dp"
-            tools:layout_editor_absoluteY="234dp" />
+            android:text="My Workouts"
+             />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#2196F3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            <TextView
+                android:id="@+id/myWorkoutsListTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@android:color/white"
+                />
+            </LinearLayout>
+        </ScrollView>
+
+        <TextView
+            android:id="@+id/availableWorkoutsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available Workouts"
+            />
+
+        <TextView
+            android:id="@+id/joinedWorkoutsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Joined Workouts"
+            />
 
         <Button
             android:id="@+id/editProfile"
