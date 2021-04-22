@@ -56,7 +56,7 @@
             android:id="@+id/myWorkoutsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Workouts"
+            android:text="My Created Workouts"
              />
 
         <ScrollView
@@ -75,7 +75,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text=""
                 android:textColor="@android:color/white"
                 />
             </LinearLayout>
