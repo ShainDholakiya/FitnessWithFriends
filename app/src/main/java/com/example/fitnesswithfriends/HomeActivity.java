@@ -2,33 +2,19 @@ package com.example.fitnesswithfriends;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +24,12 @@ public class HomeActivity extends AppCompatActivity {
     private Button signOut;
     private TextView myWorkoutsList;
     String userID;
+    private List<Workout> workouts;
+    List<Workout> myWorkouts;
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth mAuth;
     private FirebaseFirestore fStore;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,36 +38,6 @@ public class HomeActivity extends AppCompatActivity {
         //Get Firebase auth instance
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-
-        myWorkoutsList = findViewById(R.id.myWorkoutsListTextView);
-        userID = mAuth.getCurrentUser().getUid();
-
-//        fStore.collection("workouts").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//
-//            }
-//        });
-
-
-//        fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//            @Override
-//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                if (queryDocumentSnapshots.isEmpty()) {
-//                    return;
-//                } else {
-//                    List<Object> allDocuments = new ArrayList<>(queryDocumentSnapshots.getDocuments());
-//                    for (int i = 0; i < allDocuments.size(); i++) {
-//                        Object document = allDocuments.get(i);
-//                        String documentID = document;
-//                        System.out.println(document);
-//                    }
-////                    System.out.println(allDocuments);
-//                }
-//            }
-//        });
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         if (mAuth.getCurrentUser() == null) {
             //User is not logged in
@@ -115,9 +72,48 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        myWorkoutsList = findViewById(R.id.myWorkoutsListTextView);
+        userID = mAuth.getCurrentUser().getUid();
+        workouts = new ArrayList<>();
+        myWorkouts = new ArrayList<>();
+
+        getMyWorkouts();
+
         initHomeButton();
         initMapButton();
         initCreateWorkoutButton();
+    }
+
+    private void getMyWorkouts() {
+
+        fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                workouts.clear();
+                if (queryDocumentSnapshots.isEmpty()) {
+                    return;
+                } else {
+                    workouts = queryDocumentSnapshots.toObjects(Workout.class);
+
+                    for (int i = 0; i < workouts.size(); i++) {
+                        if (workouts.get(i).getCreatedBy().equals(userID)) {
+                            myWorkouts.add(workouts.get(i));
+                        }
+//                        System.out.println(myWorkouts);
+                    }
+                }
+
+                String allText = "";
+
+                for (Workout workout : myWorkouts) {
+                    String string = String.format("%s | %s | %s | %s | %s | %s", workout.workoutName, workout.workoutDescription, workout.workoutType, workout.fitLevel, workout.workoutDuration, workout.workoutLocation);
+                    allText = allText + string + "\n\n";
+                }
+
+                myWorkoutsList.setText(allText);
+            }
+        });
+
     }
 
 

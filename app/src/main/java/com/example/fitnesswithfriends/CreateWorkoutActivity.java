@@ -64,7 +64,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
 
                 user = fAuth.getCurrentUser();
                 userID = user.getUid();
-                DocumentReference documentReference = fStore.collection("workouts").document(userID);
+                DocumentReference documentReference = fStore.collection("workouts").document();
                 Map<String,Object> workoutData = new HashMap<>();
                 workoutData.put("workoutName",workout_name);
                 workoutData.put("workoutDescription",workout_description);
@@ -72,6 +72,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
                 workoutData.put("fitLevel", fit_level);
                 workoutData.put("workoutDuration", workout_duration);
                 workoutData.put("workoutLocation", workout_loc);
+                workoutData.put("createdBy", userID);
 
                 documentReference.set(workoutData).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

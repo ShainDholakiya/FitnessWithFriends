@@ -125,9 +125,9 @@ public class EditProfileActivity extends AppCompatActivity {
         String gender = genderSpinner.getSelectedItem().toString();
         String fav_workout = favWorkoutSpinner.getSelectedItem().toString();
         String fit_level = fitLevelSpinner.getSelectedItem().toString();
-        User user_info = new User(first_name,last_name,gender,fav_workout,fit_level);
-        FirebaseUser user = mAuth.getCurrentUser();
-        mDatabase.child(user.getUid()).setValue(user_info);
+//        User user_info = new User(first_name,last_name,gender,fav_workout,fit_level);
+//        FirebaseUser user = mAuth.getCurrentUser();
+//        mDatabase.child(user.getUid()).setValue(user_info);
         Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
     }
 
