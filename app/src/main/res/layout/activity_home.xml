@@ -59,26 +59,15 @@
             android:text="My Created Workouts"
              />
 
-        <ScrollView
+        <ListView
+            android:id="@+id/myWorkoutsListView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
+            android:layout_weight="1"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:background="#2196F3">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-            <TextView
-                android:id="@+id/myWorkoutsListTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textColor="@android:color/white"
-                />
-            </LinearLayout>
-        </ScrollView>
+            android:background="#2196F3" >
+        </ListView>
 
         <TextView
             android:id="@+id/availableWorkoutsTextView"
@@ -87,12 +76,32 @@
             android:text="Available Workouts"
             />
 
+        <ListView
+            android:id="@+id/availableWorkoutsListView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#2196F3" >
+        </ListView>
+
         <TextView
             android:id="@+id/joinedWorkoutsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Joined Workouts"
             />
+
+        <ListView
+            android:id="@+id/joinedWorkoutsListView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="#2196F3" >
+        </ListView>
 
         <Button
             android:id="@+id/editProfile"
