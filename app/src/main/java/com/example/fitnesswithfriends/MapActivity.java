@@ -9,15 +9,19 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -30,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -37,7 +42,18 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +61,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String TAG = MapActivity.class.getSimpleName();
     private GoogleMap map;
     private CameraPosition cameraPosition;
-
+    private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore fStore;
+    String userID;
+    private List<Workout> workouts;
+    List<Workout> myWorkouts;
+    private Geocoder geocoder;
     // The entry point to the Places API.
     private PlacesClient placesClient;
 
@@ -77,24 +99,45 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        geocoder = new Geocoder(this);
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
-        // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map);
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(MapActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
+
 
         initHomeButton();
         initMapButton();
         initCreateWorkoutButton();
-        // Construct a PlacesClient
-        /*
 
-        replaced getString(R.string.maps_api_key) with the current reference to the api key
-         */
+        userID = mAuth.getCurrentUser().getUid();
+        workouts = new ArrayList<>();
+        myWorkouts = new ArrayList<>();
+
+        getMyWorkouts();
+
+        //  replaced getString(R.string.maps_api_key) with the current reference to the api key
+
         Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         placesClient = Places.createClient(this);
 
@@ -102,10 +145,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Build the map.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+    }
+    private void getMyWorkouts() {
+
+        fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                workouts.clear();
+                if (queryDocumentSnapshots.isEmpty()) {
+                    return;
+                } else {
+                    workouts = queryDocumentSnapshots.toObjects(Workout.class);
+
+                    for (int i = 0; i < workouts.size(); i++) {
+                        if (workouts.get(i).getCreatedBy().equals(userID)) {
+                            myWorkouts.add(workouts.get(i));
+                        }
+//                        System.out.println(myWorkouts);
+                    }
+                }
+
+                String allText = "";
+
+                for (Workout workout : myWorkouts) {
+                    String string =  workout.workoutLocation;
+                    allText = allText + string + "\n\n";
+                }
+
+                Toast.makeText(getApplicationContext(),allText,Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     /**
@@ -151,6 +223,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        try {
+            List <Address> adress =geocoder.getFromLocationName("London",1);
+            if (adress.size()>0) {
+                Address address = adress.get(0);
+                LatLng workOutPlaces = new LatLng(address.getLatitude(), address.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions()
+                        .position(workOutPlaces)
+                        .title(address.getLocality());
+                map.addMarker(markerOptions);
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(workOutPlaces,16));
+                Toast.makeText(getApplicationContext(),"location found",Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+        }
+
 
         // Use a custom info window adapter to handle multiple lines of text in the
         // info window contents.
