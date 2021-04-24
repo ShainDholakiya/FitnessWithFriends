@@ -1,8 +1,6 @@
 package com.example.fitnesswithfriends;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -23,6 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -138,7 +139,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         if (view == btnsave){
             if (imagePath == null) {
 
-                Drawable drawable = this.getResources().getDrawable(R.drawable.defavatar);
+                @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = this.getResources().getDrawable(R.drawable.defavatar);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.defavatar);
                 userInformation();
                 finish();
