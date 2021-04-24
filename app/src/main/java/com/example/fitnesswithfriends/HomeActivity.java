@@ -24,11 +24,16 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private Button signOut;
+    String userID;
+
     private ListView myWorkoutsList;
     private ListView availableWorkoutsList;
-    String userID;
+
     private List<Workout> workouts;
-    List<Workout> myWorkouts;
+    private List<Workout> myWorkouts;
+
+    private List<Workout> availableWorkoutsTemp;
+    private List<Workout> availableWorkouts;
 
     private ArrayAdapter<String> myWorkoutsAdapter;
     private ArrayList<String> myWorkoutsArrayList;
@@ -85,6 +90,8 @@ public class HomeActivity extends AppCompatActivity {
         userID = mAuth.getCurrentUser().getUid();
         workouts = new ArrayList<>();
         myWorkouts = new ArrayList<>();
+        availableWorkoutsTemp = new ArrayList<>();
+        availableWorkouts = new ArrayList<>();
 
         myWorkoutsArrayList = new ArrayList<String>();
         myWorkoutsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, myWorkoutsArrayList);
@@ -136,21 +143,20 @@ public class HomeActivity extends AppCompatActivity {
         fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                workouts.clear();
+                availableWorkoutsTemp.clear();
                 if (queryDocumentSnapshots.isEmpty()) {
                     return;
                 } else {
-                    workouts = queryDocumentSnapshots.toObjects(Workout.class);
+                    availableWorkoutsTemp = queryDocumentSnapshots.toObjects(Workout.class);
 
-                    for (int i = 0; i < workouts.size(); i++) {
-                        if (workouts.get(i).getCreatedBy().equals(userID)) {
-                            workouts.remove(i);
+                    for (int i = 0; i < availableWorkoutsTemp.size(); i++) {
+                        if (!availableWorkoutsTemp.get(i).getCreatedBy().equals(userID)) {
+                            availableWorkouts.add(availableWorkoutsTemp.get(i));
                         }
-//                        System.out.println(myWorkouts);
                     }
                 }
 
-                for (Workout workout : workouts) {
+                for (Workout workout : availableWorkouts) {
                     availableWorkoutsArrayList.add(workout.workoutName);
                     availableWorkoutsAdapter.notifyDataSetChanged();
                 }
