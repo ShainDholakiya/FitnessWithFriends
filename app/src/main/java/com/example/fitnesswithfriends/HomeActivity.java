@@ -3,8 +3,10 @@ package com.example.fitnesswithfriends;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,10 +24,16 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private Button signOut;
-    private TextView myWorkoutsList;
+    private ListView myWorkoutsList;
+    private ListView availableWorkoutsList;
     String userID;
     private List<Workout> workouts;
     List<Workout> myWorkouts;
+
+    private ArrayAdapter<String> myWorkoutsAdapter;
+    private ArrayList<String> myWorkoutsArrayList;
+    private ArrayAdapter<String> availableWorkoutsAdapter;
+    private ArrayList<String> availableWorkoutsArrayList;
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth mAuth;
@@ -72,12 +80,22 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        myWorkoutsList = findViewById(R.id.myWorkoutsListTextView);
+        myWorkoutsList = findViewById(R.id.myWorkoutsListView);
+        availableWorkoutsList = findViewById(R.id.availableWorkoutsListView);
         userID = mAuth.getCurrentUser().getUid();
         workouts = new ArrayList<>();
         myWorkouts = new ArrayList<>();
 
+        myWorkoutsArrayList = new ArrayList<String>();
+        myWorkoutsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, myWorkoutsArrayList);
+        myWorkoutsList.setAdapter(myWorkoutsAdapter);
+
+        availableWorkoutsArrayList = new ArrayList<String>();
+        availableWorkoutsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, availableWorkoutsArrayList);
+        availableWorkoutsList.setAdapter(availableWorkoutsAdapter);
+
         getMyWorkouts();
+        getAvailableWorkouts();
 
         initHomeButton();
         initMapButton();
@@ -103,14 +121,40 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
 
-                String allText = "";
-
                 for (Workout workout : myWorkouts) {
-                    String string = String.format("%s | %s | %s | %s | %s | %s", workout.workoutName, workout.workoutDescription, workout.workoutType, workout.fitLevel, workout.workoutDuration, workout.workoutLocation);
-                    allText = allText + string + "\n\n";
+                    myWorkoutsArrayList.add(workout.workoutName);
+                    myWorkoutsAdapter.notifyDataSetChanged();
                 }
 
-                myWorkoutsList.setText(allText);
+            }
+        });
+
+    }
+
+    private void getAvailableWorkouts() {
+
+        fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                workouts.clear();
+                if (queryDocumentSnapshots.isEmpty()) {
+                    return;
+                } else {
+                    workouts = queryDocumentSnapshots.toObjects(Workout.class);
+
+                    for (int i = 0; i < workouts.size(); i++) {
+                        if (workouts.get(i).getCreatedBy().equals(userID)) {
+                            workouts.remove(i);
+                        }
+//                        System.out.println(myWorkouts);
+                    }
+                }
+
+                for (Workout workout : workouts) {
+                    availableWorkoutsArrayList.add(workout.workoutName);
+                    availableWorkoutsAdapter.notifyDataSetChanged();
+                }
+
             }
         });
 
