@@ -27,6 +27,8 @@ public class Workout {
         return createdBy;
     }
 
+    public String getWorkoutName() { return workoutName; }
+
 }
 
 
