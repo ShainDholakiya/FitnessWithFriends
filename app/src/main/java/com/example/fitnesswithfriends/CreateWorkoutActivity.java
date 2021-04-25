@@ -1,128 +1,91 @@
 package com.example.fitnesswithfriends;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CreateWorkoutActivity extends AppCompatActivity {
 
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    FirebaseUser user;
+    String userID;
+    Button createBtn;
 
-    private static final String TAG = "Location text working??";
-    //widgets
-    private EditText mLocationText;
-    private EditText mWkText; //editable workout title text
-
-
-
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private String Workout_Title = "Workout Title";
-    private String Workout_Location = "Workout Location: ";
+    private EditText editTextWorkoutName;
+    private EditText editTextDescription;
+    private Spinner workoutTypeSpinner, fitLevelSpinner, workoutDurationSpinner;
+    private EditText editTextLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_workout);
 
-        mLocationText = (EditText) findViewById(R.id.input_location);
-        mWkText = (EditText) findViewById(R.id.editTitleWk);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        editTextWorkoutName = findViewById(R.id.editTextWorkoutName);
+        editTextDescription = findViewById(R.id.editTextDescription);
+        workoutTypeSpinner = findViewById(R.id.WorkoutTypeSpinner);
+        fitLevelSpinner = findViewById(R.id.FitLevelSpinner);
+        workoutDurationSpinner = findViewById(R.id.WorkoutDurationSpinner);
+        editTextLocation = findViewById(R.id.editTextLocation);
+        createBtn = findViewById(R.id.doneButton);
+
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String workout_name = editTextWorkoutName.getText().toString().trim();
+                String workout_description = editTextDescription.getText().toString().trim();
+                String workout_type = workoutTypeSpinner.getSelectedItem().toString();
+                String fit_level = fitLevelSpinner.getSelectedItem().toString();
+                String workout_duration = workoutDurationSpinner.getSelectedItem().toString();
+                String workout_loc = editTextLocation.getText().toString().trim();
+
+                user = fAuth.getCurrentUser();
+                userID = user.getUid();
+                DocumentReference documentReference = fStore.collection("workouts").document();
+                Map<String,Object> workoutData = new HashMap<>();
+                workoutData.put("workoutName",workout_name);
+                workoutData.put("workoutDescription",workout_description);
+                workoutData.put("workoutType", workout_type);
+                workoutData.put("fitLevel", fit_level);
+                workoutData.put("workoutDuration", workout_duration);
+                workoutData.put("workoutLocation", workout_loc);
+                workoutData.put("createdBy", userID);
+
+                documentReference.set(workoutData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(),"Workout created",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
         initHomeButton();
         initMapButton();
         initCreateWorkoutButton();
-        initLocationText();
-    }
-
-    private void initUserWorkout() {
-        // Create a new user with a first and last name
-        Map<String, Object> userWorkout = new HashMap<>();
-        userWorkout.put("first", "Ada");
-        userWorkout.put("last", "Lovelace");
-        userWorkout.put("born", 1815);
-
-// Add a new document with a generated ID
-        db.collection("users")
-                .add(userWorkout)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
-    }
-    private void initLocationText() {
-        Log.d(TAG, "initializing location text");
-        mLocationText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                || actionId == EditorInfo.IME_ACTION_DONE
-                || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                ||keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-                    
-                    //execute code for searching
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-    }
-
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String locationString = mLocationText.getText().toString();
-
-        Geocoder geocoder = new Geocoder(CreateWorkoutActivity.this);
-        List<Address> locationList = new ArrayList<>();
-        try{
-            locationList = geocoder.getFromLocationName(locationString, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geolocate: IOException: " + e.getMessage()  );
-        }
-        if(locationList.size() > 0 ) {
-            Address list = locationList.get(0);
-
-            Log.d(TAG, "geoLocate: found a location: " + list.toString());
-
-            //moveCamera(new LatLng(list.getLatitude(),list.getLongitude(), DEFAULT_ZOOM));
-//            LatLng latLng = null;
-//            String title = null;
-//            MarkerOptions workouts = new MarkerOptions()
-//                    .position(latLng)
-//                    .title(title);
-
-
-        }
-
-
     }
 
     private void initHomeButton() {
@@ -136,10 +99,6 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * change intent to go to MapsActivity.class. otherwise will need to click twice to see map
-     *
-     */
     private void initMapButton() {
         ImageButton ibList = findViewById(R.id.navMap);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +109,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
             }
         });
     }
+
     private void initCreateWorkoutButton() {
         ImageButton ibList = findViewById(R.id.navCreateWorkout);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -159,31 +119,5 @@ public class CreateWorkoutActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public void createWorkout(View view) {
-        String title = mWkText.getText().toString();
-        String location = mLocationText.getText().toString();
-
-        Map<String, Object> allWorkouts = new HashMap<>();
-        allWorkouts.put(Workout_Title,title);
-        allWorkouts.put(Workout_Location,location);
-
-        db.collection("Workout Notebook").document("added workout").set(allWorkouts)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(CreateWorkoutActivity.this, "Workout saved", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreateWorkoutActivity.this, "ERROR Workout not saved", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG,e.toString());
-                    }
-                });
-
-
     }
 }

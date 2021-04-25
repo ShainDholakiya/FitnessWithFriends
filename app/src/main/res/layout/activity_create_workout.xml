@@ -42,28 +42,22 @@
             android:src="@drawable/ic_createworkout_black_24dp" />
     </LinearLayout>
     <LinearLayout
-        android:layout_width="436dp"
-        android:layout_height="754dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.157"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.444">
+        >
 
-        <TextView
-            android:id="@+id/CreateWorkout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create New Workout"
-            android:textColor="@color/black"
-            android:textSize="36sp"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="54dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/CreateWorkout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Create A Workout"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="36sp"-->
+<!--            />-->
 
         <TextView
             android:id="@+id/textName"
@@ -71,18 +65,16 @@
             android:layout_height="wrap_content"
             android:text="Workout Name:"
             android:textColor="@color/black"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="54dp" />
+             />
 
         <EditText
             android:id="@+id/editTitleWk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="enter workout name"
+            android:hint="Enter a workout name"
             android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="160dp"
-            tools:layout_editor_absoluteY="73dp" />
+             />
 
         <TextView
             android:id="@+id/textDescription"
@@ -90,18 +82,16 @@
             android:layout_height="wrap_content"
             android:text="Workout Description:"
             android:textColor="@color/black"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="54dp" />
+             />
 
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="enter workout description"
+            android:hint="Enter a workout description"
             android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="160dp"
-            tools:layout_editor_absoluteY="73dp" />
+             />
 
         <Spinner
             android:id="@+id/WorkoutTypeSpinner"
@@ -134,18 +124,16 @@
             android:layout_height="wrap_content"
             android:text="Workout Location:"
             android:textColor="@color/black"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="54dp" />
+             />
 
         <EditText
             android:id="@+id/input_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="enable location"
+            android:hint="Enter a workout location"
             android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="160dp"
-            tools:layout_editor_absoluteY="73dp" />
+            />
 
         <Button
             android:id="@+id/btnCreateWk"

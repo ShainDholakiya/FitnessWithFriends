@@ -1,8 +1,6 @@
 package com.example.fitnesswithfriends;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -24,29 +22,34 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = CreateProfileActivity.class.getSimpleName();
     Button btnsave;
-    private FirebaseAuth mAuth;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
     private TextView textViewemailname;
-    private DatabaseReference databaseReference;
     private EditText editTextFirstName, editTextLastName;
     private ImageView profileImageView;
     private Spinner genderSpinner, favWorkoutSpinner, fitLevelSpinner;
-    private FirebaseStorage firebaseStorage;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
     private StorageReference storageReference;
@@ -74,19 +77,19 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_create_profile);
 
         //Get Firebase auth instance
-        mAuth = FirebaseAuth.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
-        if (mAuth.getCurrentUser() == null) {
+        if (fAuth.getCurrentUser() == null) {
             //User is not logged in
             startActivity(new Intent(CreateProfileActivity.this, LoginActivity.class));
             finish();
         }
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
         editTextFirstName = (EditText)findViewById(R.id.EditTextFirstName);
         editTextLastName = (EditText)findViewById(R.id.EditTextLastName);
         btnsave = (Button)findViewById(R.id.btnSaveButton);
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = fAuth.getCurrentUser();
         btnsave.setOnClickListener(this);
         textViewemailname=(TextView)findViewById(R.id.textViewEmailAddress);
         textViewemailname.setText(user.getEmail());
@@ -94,8 +97,6 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         genderSpinner = (Spinner) findViewById(R.id.GenderSpinner);
         favWorkoutSpinner = (Spinner) findViewById(R.id.FavWorkoutSpinner);
         fitLevelSpinner = (Spinner) findViewById(R.id.FitLevelSpinner);
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
 
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,10 +115,23 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         String gender = genderSpinner.getSelectedItem().toString();
         String fav_workout = favWorkoutSpinner.getSelectedItem().toString();
         String fit_level = fitLevelSpinner.getSelectedItem().toString();
-        User user_info = new User(first_name,last_name,gender,fav_workout,fit_level);
-        FirebaseUser user = mAuth.getCurrentUser();
-        databaseReference.child(user.getUid()).setValue(user_info);
-        Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
+        String userID = fAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = fStore.collection("allUsers").document();
+        Map<String,Object> userData = new HashMap<>();
+        userData.put("userID",userID);
+        userData.put("firstName",first_name);
+        userData.put("lastName",last_name);
+        userData.put("gender", gender);
+        userData.put("favWorkout", fav_workout);
+        userData.put("fitLevel", fit_level);
+
+        documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(getApplicationContext(),"User information updated",Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -125,7 +139,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         if (view == btnsave){
             if (imagePath == null) {
 
-                Drawable drawable = this.getResources().getDrawable(R.drawable.defavatar);
+                @SuppressLint("UseCompatLoadingForDrawables") Drawable drawable = this.getResources().getDrawable(R.drawable.defavatar);
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.defavatar);
                 userInformation();
                 finish();
@@ -143,8 +157,8 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private void sendUserData() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         // Get "User UID" from Firebase > Authentification > Users.
-        DatabaseReference databaseReference = firebaseDatabase.getReference(mAuth.getUid());
-        StorageReference imageReference = storageReference.child(mAuth.getUid()).child("Images").child("Profile Pic"); //User id/Images/Profile Pic.jpg
+        DatabaseReference databaseReference = firebaseDatabase.getReference(fAuth.getUid());
+        StorageReference imageReference = storageReference.child(fAuth.getUid()).child("Images").child("Profile Pic"); //User id/Images/Profile Pic.jpg
         UploadTask uploadTask = imageReference.putFile(imagePath);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

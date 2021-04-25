@@ -60,7 +60,7 @@
         <item>1 Hour</item>
         <item>1 1/2 Hours</item>
         <item>2 Hours</item>
-        <item>Custome</item>
+        <item>Custom</item>
     </string-array>
 
     <string-array name="type_array">

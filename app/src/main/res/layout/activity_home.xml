@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="?attr/actionBarSize">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -46,19 +45,72 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/myWorkoutsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home Activity"
-            tools:layout_editor_absoluteX="184dp"
-            tools:layout_editor_absoluteY="234dp" />
+            android:text="My Created Workouts" />
+
+        <ListView
+            android:id="@+id/myWorkoutsListView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:background="#2196F3"></ListView>
+
+        <TextView
+            android:id="@+id/availableWorkoutsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available Workouts" />
+
+        <ListView
+            android:id="@+id/availableWorkoutsListView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:background="#2196F3"></ListView>
+
+        <TextView
+            android:id="@+id/joinedWorkoutsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Joined Workouts" />
+
+        <ListView
+            android:id="@+id/joinedWorkoutsListView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:background="#2196F3"></ListView>
+
+        <Button
+            android:id="@+id/editProfile"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#2196F3"
+            android:onClick="btnEditProfile"
+            android:text="@string/edit_profile"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:backgroundTint="#2196F3" />
 
         <Button
             android:id="@+id/sign_out"
