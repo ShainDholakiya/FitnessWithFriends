@@ -1,13 +1,18 @@
 package com.example.fitnesswithfriends;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +44,13 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> myWorkoutsArrayList;
     private ArrayAdapter<String> availableWorkoutsAdapter;
     private ArrayList<String> availableWorkoutsArrayList;
+
+    private List<Workout> selectedList;
+    String selectedDescription = "";
+    String selectedType = "";
+    String selectedLevel = "";
+    String selectedDuration = "";
+    String selectedLocation = "";
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth mAuth;
@@ -104,9 +116,68 @@ public class HomeActivity extends AppCompatActivity {
         getMyWorkouts();
         getAvailableWorkouts();
 
+        selectedList = new ArrayList<>();
+
+        availableWorkoutsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                selectedList.clear();
+                // selected item
+                String selectedName = availableWorkoutsAdapter.getItem(position);
+
+                fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        selectedList.clear();
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            return;
+                        } else {
+                            List<Workout> tempList = queryDocumentSnapshots.toObjects(Workout.class);
+
+                            for (int i = 0; i < tempList.size(); i++) {
+                                if (tempList.get(i).getWorkoutName().equals(selectedName)) {
+                                    selectedList.add(tempList.get(i));
+                                    selectedDescription = tempList.get(i).workoutDescription;
+                                    selectedType = tempList.get(i).workoutType;
+                                    selectedLevel = tempList.get(i).fitLevel;
+                                    selectedDuration = tempList.get(i).workoutDuration;
+                                    selectedLocation = tempList.get(i).workoutLocation;
+                                }
+                            }
+
+                        }
+                        onDialog(selectedName);
+                    }
+                });
+
+            }
+        });
+
         initHomeButton();
         initMapButton();
         initCreateWorkoutButton();
+    }
+
+    private void onDialog(String selectedName) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(selectedName);
+        String allText = String.format("%s \n%s \n%s \n%s \n%s", selectedDescription, selectedType, selectedLevel, selectedDuration, selectedLocation);
+        alert.setMessage(allText);
+
+        alert.setPositiveButton("Join", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Your action here
+            }
+        });
+
+        alert.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // User cancelled the dialog
+                    }
+                });
+
+        alert.show();
     }
 
     private void getMyWorkouts() {
@@ -177,6 +248,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
     private void initMapButton() {
         ImageButton ibList = findViewById(R.id.navMap);
         ibList.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +259,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
     private void initCreateWorkoutButton() {
         ImageButton ibList = findViewById(R.id.navCreateWorkout);
         ibList.setOnClickListener(new View.OnClickListener() {
