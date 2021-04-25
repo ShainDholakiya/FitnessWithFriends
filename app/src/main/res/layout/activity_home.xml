@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#0CDF5B5B">
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -67,7 +68,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:background="#2196F3"></ListView>
+            android:background="#FF9100"></ListView>
 
         <TextView
             android:id="@+id/availableWorkoutsTextView"
@@ -82,7 +83,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:background="#2196F3"></ListView>
+            android:background="#FF9100" />
 
         <TextView
             android:id="@+id/joinedWorkoutsTextView"
@@ -97,7 +98,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_weight="1"
-            android:background="#2196F3"></ListView>
+            android:background="#FF9100"></ListView>
 
         <Button
             android:id="@+id/editProfile"
@@ -105,12 +106,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="#2196F3"
             android:onClick="btnEditProfile"
             android:text="@string/edit_profile"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            app:backgroundTint="#2196F3" />
+            />
 
         <Button
             android:id="@+id/sign_out"
@@ -121,8 +121,7 @@
             android:background="#2196F3"
             android:text="@string/btn_sign_out"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:backgroundTint="#2196F3" />
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

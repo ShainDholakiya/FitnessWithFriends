@@ -10,9 +10,10 @@
         android:id="@+id/update_imageView"
         android:layout_width="match_parent"
         android:layout_height="182dp"
+        android:foreground="@drawable/rounded_fg"
+        android:foregroundTint="#E8DD2C00"
         android:gravity="center_vertical"
-        android:src="@drawable/defavatar"
-        android:foreground="@drawable/rounded_fg"/>
+        android:src="@drawable/defavatar" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
+        android:background="#FF6D00"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
@@ -35,6 +37,8 @@
             android:id="@+id/EditTextFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#ECDFDF"
+            android:breakStrategy="high_quality"
             android:ems="10"
             android:hint="@string/edit_first_name"
             android:inputType="textPersonName|textCapSentences" />
@@ -50,10 +54,11 @@
             android:id="@+id/EditTextLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#E8DEDE"
             android:ems="10"
             android:hint="@string/edit_last_name"
-            android:inputType="textPersonName|textCapSentences"
-            android:layout_marginBottom="15dp"/>
+            android:inputType="textPersonName|textCapSentences" />
 
         <Spinner
             android:id="@+id/GenderSpinner"
@@ -75,10 +80,10 @@
             android:id="@+id/FitLevelSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown"
             android:entries="@array/fit_level_array"
-            android:spinnerMode="dropdown"
-            android:layout_marginBottom="20dp"/>
+            android:spinnerMode="dropdown" />
 
         <TextView
             android:id="@+id/TextViewEmail"
@@ -91,6 +96,7 @@
             android:id="@+id/textViewEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
             android:text="@string/edit_e_mail"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -103,7 +109,7 @@
             android:onClick="btnSave"
             android:text="@string/btn_done"
             android:textColor="@color/white"
-            app:backgroundTint="#2196F3"
+
             tools:ignore="OnClick" />
     </LinearLayout>
 </RelativeLayout>
