@@ -68,7 +68,7 @@
              />
 
         <EditText
-            android:id="@+id/editTitleWk"
+            android:id="@+id/editTextWorkoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -127,7 +127,7 @@
              />
 
         <EditText
-            android:id="@+id/input_location"
+            android:id="@+id/editTextLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -136,7 +136,7 @@
             />
 
         <Button
-            android:id="@+id/btnCreateWk"
+            android:id="@+id/doneButton"
             android:layout_width="158dp"
             android:layout_height="45dp"
             android:layout_marginStart="119dp"
@@ -145,10 +145,11 @@
             android:layout_marginEnd="151dp"
             android:layout_marginRight="151dp"
             android:onClick="createWorkout"
-            android:text="SaveWorkout"
+            android:text="Save Workout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutLocation" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutLocation"
+            />
 
 
     </LinearLayout>
