@@ -2,4 +2,5 @@
 <resources>
     <item name="option_get_place" type="id" />
     <item name="snippet" type="id" />
+    <item name="username_Home" type="id" />
 </resources>
