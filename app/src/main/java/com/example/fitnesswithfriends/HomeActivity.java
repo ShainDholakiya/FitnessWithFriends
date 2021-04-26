@@ -163,7 +163,42 @@ public class HomeActivity extends AppCompatActivity {
                             }
 
                         }
-                        onDialog(selectedName);
+                        onDialog(selectedName, true);
+                    }
+                });
+
+            }
+        });
+
+        joinedWorkoutsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                selectedList.clear();
+                // selected item
+                String selectedName = joinedWorkoutsAdapter.getItem(position);
+
+                fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        selectedList.clear();
+                        if (queryDocumentSnapshots.isEmpty()) {
+                            return;
+                        } else {
+                            List<Workout> tempList = queryDocumentSnapshots.toObjects(Workout.class);
+
+                            for (int i = 0; i < tempList.size(); i++) {
+                                if (tempList.get(i).getWorkoutName().equals(selectedName)) {
+                                    selectedList.add(tempList.get(i));
+                                    selectedDescription = tempList.get(i).workoutDescription;
+                                    selectedType = tempList.get(i).workoutType;
+                                    selectedLevel = tempList.get(i).fitLevel;
+                                    selectedDuration = tempList.get(i).workoutDuration;
+                                    selectedLocation = tempList.get(i).workoutLocation;
+                                }
+                            }
+
+                        }
+                        onDialog(selectedName, false);
                     }
                 });
 
@@ -175,27 +210,51 @@ public class HomeActivity extends AppCompatActivity {
         initCreateWorkoutButton();
     }
 
-    private void onDialog(String selectedName) {
+    private void onDialog(String selectedName, Boolean availableOrJoined) {
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(selectedName);
         String allText = String.format("%s \n%s \n%s \n%s \n%s", selectedDescription, selectedType, selectedLevel, selectedDuration, selectedLocation);
         alert.setMessage(allText);
 
-        alert.setPositiveButton("Join", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //Your action here
-                joinedWorkouts = new ArrayList<>();
-                fStore.collection("allUsers").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(Task<DocumentSnapshot> task) {
-                        joinedWorkouts = (List<String>) task.getResult().getData().get("joined");
-                        joinedWorkouts.add(selectedName);
-                        fStore.collection("allUsers").document(userID).update("joined", joinedWorkouts);
-                        getJoinedWorkouts();
-                    }
-                });
-            }
-        });
+        if (availableOrJoined) {
+            alert.setPositiveButton("Join", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Your action here
+                    joinedWorkouts = new ArrayList<>();
+                    fStore.collection("allUsers").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(Task<DocumentSnapshot> task) {
+                            joinedWorkouts = (List<String>) task.getResult().getData().get("joined");
+                            joinedWorkouts.add(selectedName);
+                            fStore.collection("allUsers").document(userID).update("joined", joinedWorkouts);
+                            getJoinedWorkouts();
+                        }
+                    });
+                }
+            });
+        } else {
+            alert.setPositiveButton("Un-Join", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Your action here
+                    joinedWorkouts = new ArrayList<>();
+                    fStore.collection("allUsers").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(Task<DocumentSnapshot> task) {
+                            joinedWorkouts = (List<String>) task.getResult().getData().get("joined");
+                            for (int i = 0; i < joinedWorkouts.size(); i++) {
+                                if (joinedWorkouts.get(i).equals(selectedName)) {
+                                    joinedWorkouts.remove(i);
+                                }
+                            }
+                            fStore.collection("allUsers").document(userID).update("joined", joinedWorkouts);
+                            getJoinedWorkouts();
+                        }
+                    });
+                }
+            });
+        }
+
 
         alert.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
