@@ -36,7 +36,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CreateProfileActivity extends AppCompatActivity implements View.OnClickListener {
@@ -52,6 +54,8 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
     private static int PICK_IMAGE = 123;
     Uri imagePath;
     private StorageReference storageReference;
+
+    private List<String> joinedWorkouts;
 
     public CreateProfileActivity() {
 
@@ -96,6 +100,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         genderSpinner = (Spinner) findViewById(R.id.GenderSpinner);
         favWorkoutSpinner = (Spinner) findViewById(R.id.FavWorkoutSpinner);
         fitLevelSpinner = (Spinner) findViewById(R.id.FitLevelSpinner);
+        joinedWorkouts = new ArrayList<>();
 
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +129,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         userData.put("gender", gender);
         userData.put("favWorkout", fav_workout);
         userData.put("fitLevel", fit_level);
+        userData.put("joined", joinedWorkouts);
 
         documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

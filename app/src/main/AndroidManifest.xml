@@ -39,6 +39,7 @@
             android:name=".CreateWorkoutActivity"
             android:label="@string/title_create_workout" />
         <activity android:name=".CreateProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />

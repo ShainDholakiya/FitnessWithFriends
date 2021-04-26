@@ -35,6 +35,7 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     private Button signOut;
+    private Button editProfile;
     String userID;
 
     private ListView myWorkoutsList;
@@ -100,11 +101,20 @@ public class HomeActivity extends AppCompatActivity {
         };
 
         signOut = (Button) findViewById(R.id.sign_out);
+        editProfile = findViewById(R.id.editProfile);
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signOut();
+            }
+        });
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, EditProfileActivity.class));
+                finish();
             }
         });
 
