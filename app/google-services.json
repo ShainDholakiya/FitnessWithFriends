@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "442657852666",
+    "firebase_url": "https://fitnesswithfriendstest-default-rtdb.firebaseio.com",
+    "project_id": "fitnesswithfriendstest",
+    "storage_bucket": "fitnesswithfriendstest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442657852666:android:75b92eb63d124ebbba0d43",
+        "android_client_info": {
+          "package_name": "com.example.fitnesswithfriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh5kdMMpAIAeEk3dzTWSIZV-C-ut_Ozd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:442657852666:android:7bde45f4b50d78f1ba0d43",
+        "android_client_info": {
+          "package_name": "com.google.firebase.codelab.fitnesswithfriends"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAh5kdMMpAIAeEk3dzTWSIZV-C-ut_Ozd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "442657852666-jde7mibu6o6v9022mpjks003hlg04fa7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
