@@ -116,7 +116,7 @@ public class CreateProfileActivity extends AppCompatActivity implements View.OnC
         String fit_level = fitLevelSpinner.getSelectedItem().toString();
         String userID = fAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference = fStore.collection("allUsers").document();
+        DocumentReference documentReference = fStore.collection("allUsers").document(userID);
         Map<String,Object> userData = new HashMap<>();
         userData.put("userID",userID);
         userData.put("firstName",first_name);

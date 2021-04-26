@@ -14,17 +14,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.security.Key;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -33,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private ListView myWorkoutsList;
     private ListView availableWorkoutsList;
+    private ListView joinedWorkoutsList;
 
     private List<Workout> workouts;
     private List<Workout> myWorkouts;
@@ -44,6 +51,8 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<String> myWorkoutsArrayList;
     private ArrayAdapter<String> availableWorkoutsAdapter;
     private ArrayList<String> availableWorkoutsArrayList;
+    private ArrayAdapter<String> joinedWorkoutsAdapter;
+    private ArrayList<String> joinedWorkoutsArrayList;
 
     private List<Workout> selectedList;
     String selectedDescription = "";
@@ -51,6 +60,8 @@ public class HomeActivity extends AppCompatActivity {
     String selectedLevel = "";
     String selectedDuration = "";
     String selectedLocation = "";
+
+    private List<String> joinedWorkouts;
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth mAuth;
@@ -99,6 +110,7 @@ public class HomeActivity extends AppCompatActivity {
 
         myWorkoutsList = findViewById(R.id.myWorkoutsListView);
         availableWorkoutsList = findViewById(R.id.availableWorkoutsListView);
+        joinedWorkoutsList = findViewById(R.id.joinedWorkoutsListView);
         userID = mAuth.getCurrentUser().getUid();
         workouts = new ArrayList<>();
         myWorkouts = new ArrayList<>();
@@ -113,8 +125,13 @@ public class HomeActivity extends AppCompatActivity {
         availableWorkoutsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, availableWorkoutsArrayList);
         availableWorkoutsList.setAdapter(availableWorkoutsAdapter);
 
+        joinedWorkoutsArrayList = new ArrayList<String>();
+        joinedWorkoutsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, joinedWorkoutsArrayList);
+        joinedWorkoutsList.setAdapter(joinedWorkoutsAdapter);
+
         getMyWorkouts();
-        getAvailableWorkouts();
+        getJoinedWorkouts();
+//        getAvailableWorkouts();
 
         selectedList = new ArrayList<>();
 
@@ -167,6 +184,16 @@ public class HomeActivity extends AppCompatActivity {
         alert.setPositiveButton("Join", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Your action here
+                joinedWorkouts = new ArrayList<>();
+                fStore.collection("allUsers").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(Task<DocumentSnapshot> task) {
+                        joinedWorkouts = (List<String>) task.getResult().getData().get("joined");
+                        joinedWorkouts.add(selectedName);
+                        fStore.collection("allUsers").document(userID).update("joined", joinedWorkouts);
+                        getJoinedWorkouts();
+                    }
+                });
             }
         });
 
@@ -209,7 +236,26 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private void getJoinedWorkouts() {
+        joinedWorkoutsArrayList.clear();
+
+        fStore.collection("allUsers").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(Task<DocumentSnapshot> task) {
+                List<String> userJoined =  (List<String>) task.getResult().getData().get("joined");
+
+                for (int i = 0; i < userJoined.size(); i++) {
+                    joinedWorkoutsArrayList.add(userJoined.get(i));
+                    joinedWorkoutsAdapter.notifyDataSetChanged();
+                }
+
+                getAvailableWorkouts();
+            }
+        });
+    }
+
     private void getAvailableWorkouts() {
+        availableWorkoutsArrayList.clear();
 
         fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -222,7 +268,9 @@ public class HomeActivity extends AppCompatActivity {
 
                     for (int i = 0; i < availableWorkoutsTemp.size(); i++) {
                         if (!availableWorkoutsTemp.get(i).getCreatedBy().equals(userID)) {
-                            availableWorkouts.add(availableWorkoutsTemp.get(i));
+                            if (!joinedWorkoutsArrayList.contains(availableWorkoutsTemp.get(i).getWorkoutName())) {
+                                availableWorkouts.add(availableWorkoutsTemp.get(i));
+                            }
                         }
                     }
                 }
@@ -230,9 +278,11 @@ public class HomeActivity extends AppCompatActivity {
                 for (Workout workout : availableWorkouts) {
                     availableWorkoutsArrayList.add(workout.workoutName);
                     availableWorkoutsAdapter.notifyDataSetChanged();
+
                 }
 
             }
+
         });
 
     }
