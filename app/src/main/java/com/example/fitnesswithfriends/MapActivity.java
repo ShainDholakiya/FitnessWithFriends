@@ -1,10 +1,5 @@
 package com.example.fitnesswithfriends;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +13,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -37,7 +39,11 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +51,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String TAG = MapActivity.class.getSimpleName();
     private GoogleMap map;
     private CameraPosition cameraPosition;
+
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    String userID;
+    private List<String> workoutsList;
+
 
     // The entry point to the Places API.
     private PlacesClient placesClient;
@@ -74,6 +86,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private List[] likelyPlaceAttributions;
     private LatLng[] likelyPlaceLatLngs;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +96,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+
+        userID = fAuth.getCurrentUser().getUid();
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map);
@@ -186,6 +205,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+        getWorkouts();
     }
 
     /**
@@ -402,6 +422,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    private void createMarkers() {
+        getWorkouts();
+    }
+
+    private void getWorkouts() {
+        workoutsList = new ArrayList<>();
+        fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                workoutsList.clear();
+                if (queryDocumentSnapshots.isEmpty()) {
+                    return;
+                } else {
+                    List<Workout> workouts = queryDocumentSnapshots.toObjects(Workout.class);
+                    for (int i = 0; i < workouts.size(); i++) {
+
+                      //  if (workouts.get(i).getCreatedBy().equals(userID)) {
+
+                        workoutsList.add(workouts.get(i).workoutLocation);
+                        System.out.println(workoutsList);
+                        Toast.makeText(MapActivity.this, "fetching workouts!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                }
+        });
+
     }
 
 
