@@ -109,11 +109,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initHomeButton();
         initMapButton();
         initCreateWorkoutButton();
-        // Construct a PlacesClient
-        /*
 
-        replaced getString(R.string.maps_api_key) with the current reference to the api key
-         */
         Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         placesClient = Places.createClient(this);
 
@@ -205,7 +201,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        /**
+         * this works but remove because otherwise will not uodated on LocationbuttonClick
         getWorkouts();
+
+         */
     }
 
     /**
@@ -366,7 +367,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             getLocationPermission();
         }
     }
-
     /**
      * Displays a form allowing the user to select a place from a list of likely places.
      */
@@ -381,7 +381,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (likelyPlaceAttributions[which] != null) {
                     markerSnippet = markerSnippet + "\n" + likelyPlaceAttributions[which];
                 }
-
                 // Add a marker for the selected place, with an info window
                 // showing information about that place.
                 map.addMarker(new MarkerOptions()
@@ -450,9 +449,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 }
         });
-
     }
 
+    private void initLocationText() {
+        System.out.println("initializing location from getWorkouts method");
+
+    }
 
     private void initHomeButton() {
         ImageButton ibList = findViewById(R.id.navHome);
@@ -464,13 +466,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
     }
-
-    /**
-     * Need to change MapsActivity.xml file to include the fragment. currently only shows the map.
-     * could also add a corner settings button..but that would probably double the work to do
-     *
-     *
-     */
     private void initMapButton() {
         ImageButton ibList = findViewById(R.id.navMap);
         ibList.setOnClickListener(new View.OnClickListener() {
