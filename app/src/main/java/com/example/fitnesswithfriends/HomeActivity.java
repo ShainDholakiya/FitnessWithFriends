@@ -1,7 +1,6 @@
 package com.example.fitnesswithfriends;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,17 +24,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private TextView username_home;
     private Button signOut;
     private Button editProfile;
     String userID;
@@ -76,6 +72,8 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
+
+
         if (mAuth.getCurrentUser() == null) {
             //User is not logged in
             startActivity(new Intent(this, LoginActivity.class));
@@ -102,7 +100,6 @@ public class HomeActivity extends AppCompatActivity {
 
         signOut = (Button) findViewById(R.id.sign_out);
         editProfile = findViewById(R.id.editProfile);
-
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +115,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        username_home = findViewById(R.id.username_Home);
         myWorkoutsList = findViewById(R.id.myWorkoutsListView);
         availableWorkoutsList = findViewById(R.id.availableWorkoutsListView);
         joinedWorkoutsList = findViewById(R.id.joinedWorkoutsListView);
@@ -139,6 +137,12 @@ public class HomeActivity extends AppCompatActivity {
         joinedWorkoutsAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, joinedWorkoutsArrayList);
         joinedWorkoutsList.setAdapter(joinedWorkoutsAdapter);
 
+        fStore.collection("allUsers").document(userID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                username_home.setText((String) task.getResult().getData().get("firstName"));
+            }
+        });
         getMyWorkouts();
         getJoinedWorkouts();
 //        getAvailableWorkouts();

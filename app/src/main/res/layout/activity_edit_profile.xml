@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,29 +9,17 @@
     <ImageView
         android:id="@+id/update_imageView"
         android:layout_width="match_parent"
-        android:layout_height="182dp"
+        android:layout_height="205dp"
+        android:foreground="@drawable/rounded_fg"
         android:gravity="center_vertical"
-        android:src="@drawable/defavatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foreground="@drawable/rounded_fg"/>
+        android:src="@drawable/defavatar" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="525dp"
+        android:layout_below="@id/update_imageView"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
-
-<!--        <TextView-->
-<!--            android:id="@+id/textViewProfile"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center_horizontal"-->
-<!--            android:text="@string/edit_profile"-->
-<!--            android:textAppearance="?android:attr/textAppearanceLarge"-->
-<!--            android:textColor="@color/black" />-->
 
         <TextView
             android:id="@+id/TextViewFirstName"
@@ -54,13 +42,15 @@
             android:layout_height="wrap_content"
             android:text="@string/last_name"
             android:textColor="@color/black" />
+
         <EditText
             android:id="@+id/EditTextLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:ems="10"
-            android:inputType="textPersonName|textCapSentences"
-            android:hint="@string/edit_last_name"/>
+            android:hint="@string/edit_last_name"
+            android:inputType="textPersonName|textCapSentences" />
 
         <Spinner
             android:id="@+id/GenderSpinner"
@@ -82,6 +72,7 @@
             android:id="@+id/FitLevelSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:background="@android:drawable/btn_dropdown"
             android:entries="@array/fit_level_array"
             android:spinnerMode="dropdown" />
@@ -105,10 +96,11 @@
             android:id="@+id/btnSaveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:onClick="btnSave"
             android:text="@string/btn_done"
             android:textColor="@color/white"
-            app:backgroundTint="#2196F3" />
+            app:backgroundTint="#2196F3"
+            tools:ignore="OnClick" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
