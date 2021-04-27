@@ -1,5 +1,6 @@
 # FitnessWithFriends
 Social fitness Android application built with Java
+
 Features: 
 - Join a workout
 - Un-join a workout
