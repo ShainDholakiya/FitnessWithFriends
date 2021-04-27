@@ -1,2 +1,8 @@
 # FitnessWithFriends
-Social fitness android application to join and create workouts
+Social fitness Android application built with Java
+Features: 
+- Join a workout
+- Un-join a workout
+- Create a workout
+- View all workouts on a map
+- Edit profile
