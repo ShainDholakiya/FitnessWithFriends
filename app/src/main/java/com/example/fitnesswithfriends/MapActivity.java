@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -37,7 +38,11 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +50,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String TAG = MapActivity.class.getSimpleName();
     private GoogleMap map;
     private CameraPosition cameraPosition;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore fStore;
+    String userID;
+
+    private List<String> workoutsList;
 
     // The entry point to the Places API.
     private PlacesClient placesClient;
@@ -83,6 +94,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
+
+        mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
 
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_map);
@@ -186,6 +201,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        getWorkouts();
     }
 
     /**
@@ -380,6 +397,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setTitle(R.string.pick_place)
                 .setItems(likelyPlaceNames, listener)
                 .show();
+    }
+
+    private void getWorkouts() {
+        workoutsList = new ArrayList<>();
+        fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                workoutsList.clear();
+                if (queryDocumentSnapshots.isEmpty()) {
+                    return;
+                } else {
+                    List<Workout> workouts = queryDocumentSnapshots.toObjects(Workout.class);
+
+                    for (int i = 0; i < workouts.size(); i++) {
+                        workoutsList.add(workouts.get(i).workoutLocation);
+                    }
+
+//                    System.out.println(workoutsList);
+                }
+            }
+        });
+    }
+
+    private void makeWorkoutMarkers() {
+        List<String> markersArray = workoutsList;
+        for (int i = 0; i < markersArray.size(); i++) {
+
+        }
     }
 
     /**

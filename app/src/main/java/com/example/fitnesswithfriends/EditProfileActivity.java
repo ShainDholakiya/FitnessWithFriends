@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -131,6 +132,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 genderSpinner.setSelection(genderIndex);
             }
         });
+
     }
 
     private void userInformation(){
@@ -225,4 +227,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         okBT.setTextColor(Color.BLUE);
         okBT.setLayoutParams(neutralBtnLP);
     }
+
+    private void initHomeButton() {
+        ImageButton ibList = findViewById(R.id.navHome);
+        ibList.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(EditProfileActivity.this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+    }
+
 }
