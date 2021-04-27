@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,6 +45,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +59,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FirebaseFirestore fStore;
     String userID;
     private List<String> workoutsList;
+
+    private List<List<Double>> workoutLatLongs;
 
 
     // The entry point to the Places API.
@@ -207,6 +212,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getWorkouts();
 
          */
+
+        getWorkouts();
     }
 
     /**
@@ -423,10 +430,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private void createMarkers() {
-        getWorkouts();
-    }
-
     private void getWorkouts() {
         workoutsList = new ArrayList<>();
         fStore.collection("workouts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -442,13 +445,60 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                       //  if (workouts.get(i).getCreatedBy().equals(userID)) {
 
                         workoutsList.add(workouts.get(i).workoutLocation);
-                        System.out.println(workoutsList);
+//                        System.out.println(workoutsList);
+                        getWorkoutLatLongs();
                         Toast.makeText(MapActivity.this, "fetching workouts!", Toast.LENGTH_LONG).show();
                         }
                     }
 
                 }
         });
+    }
+
+    private void getWorkoutLatLongs() {
+        workoutLatLongs = new ArrayList<>();
+        Geocoder geocoder = new Geocoder(MapActivity.this);
+        List<Address> locationList = new ArrayList<>();
+        String locationString = new String();
+        for (int i = 0; i < workoutsList.size(); i++) {
+            locationString = workoutsList.get(i);
+            try {
+                locationList = geocoder.getFromLocationName(locationString, 1);
+            } catch (IOException e) {
+                Log.e(TAG, "geolocate: IOException: " + e.getMessage());
+            }
+            if (locationList.size() > 0) {
+                Address list = locationList.get(0);
+
+//                Log.d(TAG, "geoLocate: found a location: " + list.toString());
+
+                Double workoutLat = list.getLatitude();
+                Double workoutLong = list.getLongitude();
+
+                List<Double> workoutPos = new ArrayList<>();
+                workoutPos.add(workoutLat);
+                workoutPos.add(workoutLong);
+
+                workoutLatLongs.add(workoutPos);
+//                System.out.println(workoutLatLongs);
+
+                makeWorkoutMarkers();
+
+//                Log.d(TAG, "this is the longitude :" + list.getLongitude());
+//                Log.d(TAG, "this is the latitude :" + list.getLatitude());
+            }
+        }
+    }
+
+    private void makeWorkoutMarkers() {
+        for (int i = 0; i < workoutLatLongs.size(); i++) {
+            Double workoutLat = workoutLatLongs.get(i).get(0);
+            Double workoutLong = workoutLatLongs.get(i).get(1);
+            LatLng workout = new LatLng(workoutLat, workoutLong);
+            map.addMarker(new MarkerOptions()
+                    .position(workout)
+                    .title("Workouts"));
+        }
     }
 
     private void initLocationText() {

@@ -59,7 +59,7 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         editTextLocation = findViewById(R.id.editTextLocation);
         createBtn = findViewById(R.id.doneButton);
 
-        initLocationText();
+//        initLocationText();
 
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,48 +97,48 @@ public class CreateWorkoutActivity extends AppCompatActivity {
         initCreateWorkoutButton();
     }
 
-    private void initLocationText() {
-        System.out.println("createWorkoutActivity is initialziingLocationText");
-        editTextLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || event.getAction() == KeyEvent.ACTION_DOWN
-                        || event.getAction() == KeyEvent.KEYCODE_ENTER){
-                    //execute code for searching
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-    }
+//    private void initLocationText() {
+//        System.out.println("createWorkoutActivity is initialziingLocationText");
+//        editTextLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                if(actionId == EditorInfo.IME_ACTION_SEARCH
+//                        || actionId == EditorInfo.IME_ACTION_DONE
+//                        || event.getAction() == KeyEvent.ACTION_DOWN
+//                        || event.getAction() == KeyEvent.KEYCODE_ENTER){
+//                    //execute code for searching
+//                    geoLocate();
+//                }
+//                return false;
+//            }
+//        });
+//    }
 
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
-        System.out.println("geolocation is working here");
-        String locationString = editTextLocation.getText().toString();
-
-        Geocoder geocoder = new Geocoder(CreateWorkoutActivity.this);
-        List<Address> locationList = new ArrayList<>();
-        try {
-            locationList = geocoder.getFromLocationName(locationString, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geolocate: IOException: " + e.getMessage());
-        }
-        if (locationList.size() > 0) {
-            Address list = locationList.get(0);
-
-            Log.d(TAG, "geoLocate: found a location: " + list.toString());
-
-            list.getLongitude();
-            list.getLatitude();
-
-            Log.d(TAG, "this is the longitude :" + list.getLongitude());
-            Log.d(TAG, "this is the latitude :" + list.getLatitude());
-         }
-
-    }
+//    private void geoLocate() {
+//        Log.d(TAG, "geoLocate: geolocating");
+//        System.out.println("geolocation is working here");
+//        String locationString = editTextLocation.getText().toString();
+//
+//        Geocoder geocoder = new Geocoder(CreateWorkoutActivity.this);
+//        List<Address> locationList = new ArrayList<>();
+//        try {
+//            locationList = geocoder.getFromLocationName(locationString, 1);
+//        } catch (IOException e) {
+//            Log.e(TAG, "geolocate: IOException: " + e.getMessage());
+//        }
+//        if (locationList.size() > 0) {
+//            Address list = locationList.get(0);
+//
+//            Log.d(TAG, "geoLocate: found a location: " + list.toString());
+//
+//            list.getLongitude();
+//            list.getLatitude();
+//
+//            Log.d(TAG, "this is the longitude :" + list.getLongitude());
+//            Log.d(TAG, "this is the latitude :" + list.getLatitude());
+//         }
+//
+//    }
 
     //clears user inputs for new workoutActivity
     private void resetInputs() {
