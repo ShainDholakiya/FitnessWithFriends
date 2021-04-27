@@ -210,12 +210,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
 
-        /**
-         * this works but remove because otherwise will not uodated on LocationbuttonClick
-        getWorkouts();
-
-         */
-
         getWorkouts();
     }
 
@@ -502,11 +496,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .position(workout)
                     .title("Workouts"));
         }
-    }
-
-    private void initLocationText() {
-        System.out.println("initializing location from getWorkouts method");
-
     }
 
     private void initHomeButton() {
